@@ -1,4 +1,8 @@
+'use client'
+import { useChatStore } from "@/features/chat/chatStore";
+
 export default function Sidebar() {
+    const { users, selectUser, selectedUser } = useChatStore();
     return (
         <div className="h-full flex flex-col">
             {/* Header */}
@@ -8,16 +12,16 @@ export default function Sidebar() {
 
             {/* Chat List */}
             <div className="flex-1 overflow-y-auto">
-                {[1, 2, 3, 4].map((chat) => (
+                {users.map((user) => (
                     <div
-                        key={chat}
-                        className="p-4 hover:bg-gray-100 cursor-pointer border-b flex items-center gap-3"
+                        key={user.id}
+                        onClick={() => selectUser(user)}
+                        className={`p-4 cursor-pointer border-b ${selectedUser?.id === user.id
+                            ? "bg-blue-100"
+                            : "hover:bg-gray-100"
+                            }`}
                     >
-                        <div className="w-10 h-10 rounded-full bg-gray-300" />
-                        <div>
-                            <p className="font-medium">User {chat}</p>
-                            <p className="text-sm text-gray-500">Last message...</p>
-                        </div>
+                        {user.name}
                     </div>
                 ))}
             </div>
